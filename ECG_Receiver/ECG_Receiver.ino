@@ -25,8 +25,7 @@ BLEClientUart clientUart;  // bleuart client
 
 void setup() {
   Serial.begin(115200);
-  // Modified: Start no matter what, so that we don't overflow the Serial buffer while we recieve.
-  // while ( !Serial ) delay(10);   // for nrf52840 with native usb
+  while ( !Serial ) delay(10);   // for nrf52840 with native usb
 
   Serial.println("Bluefruit52 Central BLEUART Example");
   Serial.println("-----------------------------------\n");

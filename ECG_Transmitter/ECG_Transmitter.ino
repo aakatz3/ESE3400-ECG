@@ -84,7 +84,7 @@ void setup() {
   Bluefruit.Periph.setConnectCallback(connect_callback);
   Bluefruit.Periph.setDisconnectCallback(disconnect_callback);
 
-  // To be consistent OTA DFU should be added first if it exists
+  // Add BLE DFU, even though we probably won't use it
   bledfu.begin();
 
   // Configure and Start Device Information Service
@@ -113,23 +113,14 @@ void startAdv(void)
   // Include bleuart 128-bit uuid
   Bluefruit.Advertising.addService(bleuart);
 
-  // Secondary Scan Response packet (optional)
-  // Since there is no room for 'Name' in Advertising packet
+  // Secondary Scan Response packet for name of device
   Bluefruit.ScanResponse.addName();
   
-  /* Start Advertising
-   * - Enable auto advertising if disconnected
-   * - Interval:  fast mode = 20 ms, slow mode = 152.5 ms
-   * - Timeout for fast mode is 30 seconds
-   * - Start(timeout) with timeout = 0 will advertise forever (until connected)
-   * 
-   * For recommended advertising interval
-   * https://developer.apple.com/library/content/qa/qa1931/_index.html   
-   */
-  Bluefruit.Advertising.restartOnDisconnect(true);
-  Bluefruit.Advertising.setInterval(32, 244);    // in unit of 0.625 ms
-  Bluefruit.Advertising.setFastTimeout(30);      // number of seconds in fast mode
-  Bluefruit.Advertising.start(0);                // 0 = Don't stop advertising after n seconds  
+
+  Bluefruit.Advertising.restartOnDisconnect(true); //  Enable auto advertising if disconnected
+  Bluefruit.Advertising.setInterval(32, 244);     // in unit of 0.625 ms, fast and slow mode intervals (20ms, 152.5ms)
+  Bluefruit.Advertising.setFastTimeout(30);       // number of seconds in fast mode
+  Bluefruit.Advertising.start(0);                 // 0 = Don't stop advertising until connected  
 }
 void loop() {
     // Update/check software timers
@@ -154,6 +145,7 @@ void connect_callback(uint16_t conn_handle)
  * Callback invoked when a connection is dropped
  * @param conn_handle connection where this event happens
  * @param reason is a BLE_HCI_STATUS_CODE which can be found in ble_hci.h
+ * From Adafruit example
  */
 void disconnect_callback(uint16_t conn_handle, uint8_t reason)
 {
