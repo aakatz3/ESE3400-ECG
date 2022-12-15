@@ -1,4 +1,4 @@
-// ECG Reciever, Adapted from Adafruit's central_bleuart sketch
+// ECG Receiver, Adapted from Adafruit's central_bleuart sketch
 /*********************************************************************
  This is an example for our nRF52 based Bluefruit LE modules
 
