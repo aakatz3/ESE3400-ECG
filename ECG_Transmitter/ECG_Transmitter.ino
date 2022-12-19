@@ -28,7 +28,7 @@
 // ADC Pin
 // A0 for custom circuit, A4 for AD8232 breakout board
 #define adcin A0
-// #define adcin A4;
+// #define adcin A4
 
 // Delay between samples
 #define del 10
